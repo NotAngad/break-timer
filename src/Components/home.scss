@@ -1,0 +1,83 @@
+form {
+	label {
+		position: relative;
+		display: block;
+
+		input {
+			font: 18px Helvetica, Arial, sans-serif;
+			box-sizing: border-box;
+			display: block;
+			border: none;
+			padding: 20px;
+			width: 300px;
+			margin-bottom: 20px;
+			font-size: 18px;
+			outline: none;
+			transition: all 0.2s ease-in-out;
+
+			&::placeholder {
+				transition: all 0.2s ease-in-out;
+				color: #999;
+				font: 18px Helvetica, Arial, sans-serif;
+			}
+
+			&:focus,
+			&.populated {
+				padding-top: 28px;
+				padding-bottom: 12px;
+
+				&::placeholder {
+					color: transparent;
+				}
+
+				& + span {
+					opacity: 1;
+					top: 10px;
+				}
+			}
+		}
+
+		span {
+			color: #1ba391;
+			font: 13px Helvetica, Arial, sans-serif;
+			position: absolute;
+			top: 0px;
+			left: 20px;
+			opacity: 0;
+			transition: all 0.2s ease-in-out;
+		}
+	}
+
+	.stopTimerBtn {
+		transition: all 0.2s ease-in-out;
+		font: 18px Helvetica, Arial, sans-serif;
+		border: none;
+		margin-left: 10px;
+		box-shadow: 5px 5px 10px #000;
+		background: #da1f1f;
+		color: #fff;
+		cursor: pointer;
+		border-radius: 5px;
+		padding: 16px 40px;
+
+		&:hover {
+			background: #da1f1f;
+		}
+	}
+
+	input[type="submit"] {
+		transition: all 0.2s ease-in-out;
+		border-radius: 5px;
+		font: 18px Helvetica, Arial, sans-serif;
+		border: none;
+		background: #1ba391;
+		color: #fff;
+		box-shadow: 5px 5px 10px #000;
+		cursor: pointer;
+		padding: 16px 40px;
+
+		&:hover {
+			background: #1ba391;
+		}
+	}
+}

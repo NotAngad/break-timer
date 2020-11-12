@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import NotificationSound from '../Assets/Sound.mp3';
+import Timer from 'react-compound-timer'
 import {Howl, Howler} from 'howler';
 import 'react-toastify/dist/ReactToastify.css';
 import './home.scss'
@@ -8,6 +9,7 @@ import './home.scss'
 const Home = () => {
     Howler.volume(1.0);
     const [minutes, setMinutes] = useState('');
+    const [timeToDisplay, setTimeToDisplay] = useState(null);
 
     let breakTimer = (timeGiven) => {
         setInterval(() => {
@@ -24,12 +26,13 @@ const Home = () => {
                 draggable: false,
                 progress: undefined,
             });
+            setTimeToDisplay(Number(timeGiven) * 60 * 1000);
         }, Number(timeGiven) * 60 * 1000);
     }
 
     const validateTime = () => {
         let validTime = true;
-        console.log('Hmm', minutes);
+        
         if(minutes.trim().length === 0) {
             toast.error('Time cannot be empty', {
                 position: "top-right",
@@ -65,9 +68,10 @@ const Home = () => {
     const submitValue = (event) => {
         event.preventDefault();
         if(validateTime()) {
+            setTimeToDisplay(Number(minutes) * 60 * 1000);
             breakTimer(minutes); 
             toast.success(`Timer has been set for ${minutes} minute(s).`);
-            setMinutes('')
+            setMinutes('');
         }
     }
 
@@ -92,6 +96,16 @@ const Home = () => {
             pauseOnHover
             />
             <form>
+                <div className="Timer">
+           {timeToDisplay && <Timer
+                initialTime={timeToDisplay}
+                direction="backward"
+            >
+                <Timer.Hours /> Hours {' '}
+                <Timer.Minutes /> Minutes {' '}
+                <Timer.Seconds /> Seconds
+            </Timer> }
+            </div>
                 <label>
                     <input id="fname" type="text" placeholder="Enter minute interval for timer"  onChange={handleChange} value={minutes} />
                     <span>Minutes</span>

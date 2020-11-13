@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import NotificationSound from '../Assets/Sound.mp3';
-import Timer from 'react-compound-timer'
 import {Howl, Howler} from 'howler';
 import 'react-toastify/dist/ReactToastify.css';
 import './home.scss'
+
+let counter=0;
 
 const Home = () => {
     Howler.volume(1.0);
@@ -26,8 +27,21 @@ const Home = () => {
                 draggable: false,
                 progress: undefined,
             });
-            setTimeToDisplay(Number(timeGiven) * 60 * 1000);
         }, Number(timeGiven) * 60 * 1000);
+    }
+
+    const countDownTimer = () => {
+        if(Number(minutes) * 60 - counter === 0){
+            counter=0;
+        }
+        setTimeToDisplay(Number(minutes) * 60 - counter);
+        counter++;
+    }
+
+    const counting = () => {
+        setInterval(() => {
+            countDownTimer()
+        }, 1000);
     }
 
     const validateTime = () => {
@@ -60,16 +74,14 @@ const Home = () => {
             setMinutes('');
             validTime = false;
         }
-
         return validTime;
     }
-
 
     const submitValue = (event) => {
         event.preventDefault();
         if(validateTime()) {
-            setTimeToDisplay(Number(minutes) * 60 * 1000);
             breakTimer(minutes); 
+            counting();
             toast.success(`Timer has been set for ${minutes} minute(s).`);
             setMinutes('');
         }
@@ -96,16 +108,9 @@ const Home = () => {
             pauseOnHover
             />
             <form>
-                <div className="Timer">
-           {timeToDisplay && <Timer
-                initialTime={timeToDisplay}
-                direction="backward"
-            >
-                <Timer.Hours /> Hours {' '}
-                <Timer.Minutes /> Minutes {' '}
-                <Timer.Seconds /> Seconds
-            </Timer> }
+            <div className="Timer">
             </div>
+                {timeToDisplay && <h2>{timeToDisplay} seconds to go</h2>}
                 <label>
                     <input id="fname" type="text" placeholder="Enter minute interval for timer"  onChange={handleChange} value={minutes} />
                     <span>Minutes</span>
